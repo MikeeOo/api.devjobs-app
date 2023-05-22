@@ -1,9 +1,13 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const testSchema = new mongoose.Schema({
+interface ITest {
+    user: string;
+}
+
+const testSchema = new Schema<ITest>({
     user: String,
 });
 
-const TestModel = mongoose.model("Users", testSchema);
+const TestModel = model<ITest>("Users", testSchema);
 
 export default TestModel;
