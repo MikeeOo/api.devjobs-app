@@ -1,9 +1,9 @@
 import { Router } from "express";
-import TestController from "../controllers/TestController";
+import JobsController from "../controllers/JobsController";
 
 const router: Router = Router();
 
-router.get("/", TestController.testGet);
-router.post("/", TestController.testAdd);
+router.get("/", JobsController.getAll);
+router.post("/", JobsController.add);
 
 export default router;
