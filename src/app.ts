@@ -1,10 +1,28 @@
 import express from "express";
 import { Application } from "express";
+// import cors from "cors";
 import mongoose from "mongoose";
+
 import router from "./router";
+
+// const corsOptions = {
+//     origin: "http://127.0.0.1:5173/",
+// };
 
 const app: Application = express();
 const port: number = 8080;
+
+// app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+    // res.setHeader("Access-Control-Allow-Origin", "https://yoursite.com");
+    // res.header(
+    //     "Access-Control-Allow-Headers",
+    //     "Origin, X-Requested-With, Content-Type, Accept"
+    // );
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    next();
+});
 
 app.use(express.json());
 app.use("/", router);
