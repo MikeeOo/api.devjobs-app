@@ -6,6 +6,16 @@ export default class JobsController {
         res.json(await JobModel.find());
     };
 
+    static getById = async (req: Request, res: Response): Promise<void> => {
+        try {
+            res.json(await JobModel.findById(req.params.id));
+        } catch (e) {
+            res.json({
+                error: "The post doesn't exist",
+            });
+        }
+    };
+
     static add = async (req: Request, res: Response): Promise<void> => {
         try {
             await new JobModel({
