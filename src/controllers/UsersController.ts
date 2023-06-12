@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
+
 import UserModel from "../models/UserModel";
 
 export default class UsersController {
@@ -6,7 +8,7 @@ export default class UsersController {
         try {
             await new UserModel({
                 email: req.body.email,
-                password: req.body.password,
+                password: bcrypt.hashSync(req.body.password, 8),
             }).save();
             res.send("User Created!");
         } catch (e) {
