@@ -9,6 +9,7 @@ router.get("/jobs/:id", JobsController.getById);
 
 router.post("/", JobsController.add);
 
-router.post("/users/register", UsersController.register);
+router.post("/u/register", UsersController.register);
+router.post("/u/login", UsersController.login);
 
 export default router;
