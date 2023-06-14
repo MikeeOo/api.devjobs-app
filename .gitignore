@@ -24,4 +24,6 @@ node_modules/
 .test/
 .solution
 
+.env
+
 package-lock.json
