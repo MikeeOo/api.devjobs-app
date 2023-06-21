@@ -1,6 +1,7 @@
 import express from "express";
 import { Application } from "express";
 // import cors from "cors";
+import dotenv from "dotenv";
 import mongoose from "mongoose";
 
 import router from "./router";
@@ -9,8 +10,11 @@ import router from "./router";
 //     origin: "http://127.0.0.1:5173/",
 // };
 
+dotenv.config();
+
 const app: Application = express();
-const port: number = 8080;
+
+const port: number = +process.env.PORT;
 
 // app.use(cors(corsOptions));
 
