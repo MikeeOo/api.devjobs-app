@@ -1,7 +1,7 @@
 import express from "express";
 import { Application } from "express";
 // import cors from "cors";
-import dotenv from "dotenv";
+import "dotenv/config";
 import mongoose from "mongoose";
 
 import router from "./router";
@@ -9,8 +9,6 @@ import router from "./router";
 // const corsOptions = {
 //     origin: "http://127.0.0.1:5173/",
 // };
-
-dotenv.config();
 
 const app: Application = express();
 
