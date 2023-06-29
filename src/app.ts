@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware";
 import indexRouter from "./router/indexRouter";
 import jobsRouter from "./router/jobsRouter";
-import userRouter from "./router/userRouter";
+import authRouter from "./router/authRouter";
 
 const app: Application = express();
 
@@ -14,8 +14,8 @@ const port: number = +process.env.PORT || 5000;
 const path: string = "/api";
 
 app.use(`${path}`, indexRouter);
-app.use(`${path}/u`, userRouter);
-app.use(`${path}/j`, jobsRouter);
+app.use(`${path}/auth`, authRouter);
+app.use(`${path}/jobs`, jobsRouter);
 
 app.use(notFound);
 app.use(errorHandler);
