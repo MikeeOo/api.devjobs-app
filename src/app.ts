@@ -1,14 +1,13 @@
-import express from "express";
-import { Application } from "express";
+import express, { Application } from "express";
 import "dotenv/config";
-import mongoose from "mongoose";
-
+import connectDB from "./config/db";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware";
 import indexRouter from "./router/indexRouter";
 import jobsRouter from "./router/jobsRouter";
 import authRouter from "./router/authRouter";
 
 const app: Application = express();
+connectDB();
 
 const port: number = +process.env.PORT || 5000;
 const path: string = "/api";
@@ -20,7 +19,5 @@ app.use(`${path}/jobs`, jobsRouter);
 app.use(notFound);
 app.use(errorHandler);
 app.use(express.json());
-
-mongoose.connect("mongodb://localhost:27017/devjobs");
 
 app.listen(port, (): void => console.log(`Server listening on port ${port}`));
