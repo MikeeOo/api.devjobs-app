@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
-import bcrypt from "bcrypt";
-
 import UserModel from "../models/UserModel";
 
 export const login = asyncHandler(async (req: Request, res: Response): Promise<void> => {
@@ -26,15 +24,26 @@ export const login = asyncHandler(async (req: Request, res: Response): Promise<v
 });
 
 export const register = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-	// try {
-	//   await new UserModel({
-	//     email: req.body.email,
-	//     password: bcrypt.hashSync(req.body.password, 8),
-	//   }).save();
-	//   res.send("User Created!");
-	// } catch (e) {
-	//   console.log(e);
-	//   res.json(e);
-	// }
-	res.send("userRegister Function");
+	const { name, surname, email, password } = req.body;
+
+	const userExists = await UserModel.findOne({ email });
+
+	if (!userExists) {
+		res.status(400);
+		throw new Error("User already exists");
+	}
+
+	const user = await UserModel.create({ name, surname, email, password });
+
+	if (user) {
+		res.status(201).json({
+			_id: user._id,
+			name: user.name,
+			surname: user.surname,
+			email: user.email,
+		});
+	} else {
+		res.status(400);
+		throw new Error("Invalid user data");
+	}
 });
