@@ -28,12 +28,17 @@ export const register = asyncHandler(async (req: Request, res: Response): Promis
 
 	const userExists = await UserModel.findOne({ email });
 
-	if (!userExists) {
+	if (userExists) {
 		res.status(400);
 		throw new Error("User already exists");
 	}
 
-	const user = await UserModel.create({ name, surname, email, password });
+	const user = await UserModel.create({
+		name,
+		email,
+		surname,
+		password,
+	});
 
 	if (user) {
 		res.status(201).json({

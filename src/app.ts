@@ -12,12 +12,14 @@ connectDB();
 const port: number = +process.env.PORT || 5000;
 const path: string = "/api";
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(`${path}`, indexRouter);
 app.use(`${path}/auth`, authRouter);
 app.use(`${path}/jobs`, jobsRouter);
 
 app.use(notFound);
 app.use(errorHandler);
-app.use(express.json());
 
 app.listen(port, (): void => console.log(`Server listening on port ${port}`));
