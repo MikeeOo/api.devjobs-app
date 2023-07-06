@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import UserModel from "../models/UserModel";
+import generateToken from "../utils/generateToken";
 
 export const login = asyncHandler(async (req: Request, res: Response): Promise<void> => {
 	// const user = await UserModel.findOne({ email: req.body.email });
@@ -41,6 +42,8 @@ export const register = asyncHandler(async (req: Request, res: Response): Promis
 	});
 
 	if (user) {
+		generateToken(res, user._id.toString());
+
 		res.status(201).json({
 			_id: user._id,
 			name: user.name,
