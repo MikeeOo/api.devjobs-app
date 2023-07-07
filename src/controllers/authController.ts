@@ -4,24 +4,23 @@ import UserModel from "../models/UserModel";
 import generateToken from "../utils/generateToken";
 
 export const login = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-	// const user = await UserModel.findOne({ email: req.body.email });
+	const { email, password } = req.body;
 
-	// if (!user) {
-	//   return res.status(404).send({
-	//     message: "Email or password invalid",
-	//   });
-	// }
-	//
-	// if (!bcrypt.compareSync(req.body.password, user.password)) {
-	//   return res.status(404).send({
-	//     message: "Email or password invalid",
-	//   });
-	// }
-	//
-	// return res.status(200).send({
-	//   message: "Login successfully",
-	// });
-	res.send("userAuth Function");
+	const user = await UserModel.findOne({ email });
+
+	if (user && (await user.matchPassword(password))) {
+		generateToken(res, user._id.toString());
+
+		res.status(201).json({
+			_id: user._id,
+			name: user.name,
+			surname: user.surname,
+			email: user.email,
+		});
+	} else {
+		res.status(401);
+		throw new Error("Invalid email or password");
+	}
 });
 
 export const register = asyncHandler(async (req: Request, res: Response): Promise<void> => {
