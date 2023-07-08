@@ -3,26 +3,6 @@ import asyncHandler from "express-async-handler";
 import UserModel from "../models/UserModel";
 import generateToken from "../utils/generateToken";
 
-export const login = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-	const { email, password } = req.body;
-
-	const user = await UserModel.findOne({ email });
-
-	if (user && (await user.matchPassword(password))) {
-		generateToken(res, user._id.toString());
-
-		res.status(201).json({
-			_id: user._id,
-			name: user.name,
-			surname: user.surname,
-			email: user.email,
-		});
-	} else {
-		res.status(401);
-		throw new Error("Invalid email or password");
-	}
-});
-
 export const register = asyncHandler(async (req: Request, res: Response): Promise<void> => {
 	const { name, surname, email, password } = req.body;
 
@@ -53,4 +33,33 @@ export const register = asyncHandler(async (req: Request, res: Response): Promis
 		res.status(400);
 		throw new Error("Invalid user data");
 	}
+});
+
+export const login = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+	const { email, password } = req.body;
+
+	const user = await UserModel.findOne({ email });
+
+	if (user && (await user.matchPassword(password))) {
+		generateToken(res, user._id.toString());
+
+		res.status(201).json({
+			_id: user._id,
+			name: user.name,
+			surname: user.surname,
+			email: user.email,
+		});
+	} else {
+		res.status(401);
+		throw new Error("Invalid email or password");
+	}
+});
+
+export const logout = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+	res.cookie("jwt", "", {
+		httpOnly: true,
+		expires: new Date(0),
+	});
+
+	res.status(200).json({ message: "User logged out" });
 });
