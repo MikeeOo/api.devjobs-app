@@ -4,8 +4,9 @@ import "dotenv/config";
 import connectDB from "./config/db";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware";
 import indexRouter from "./router/indexRouter";
-import jobsRouter from "./router/jobsRouter";
 import authRouter from "./router/authRouter";
+import userRouter from "./router/userRouter";
+import jobsRouter from "./router/jobsRouter";
 
 const app: Application = express();
 connectDB();
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use(`${path}`, indexRouter);
 app.use(`${path}/auth`, authRouter);
+app.use(`${path}/user`, userRouter);
 app.use(`${path}/jobs`, jobsRouter);
 
 app.use(notFound);
