@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { getUserProfile, updateUserProfile } from "../controllers/userController";
+import { UserController } from "../controllers/UserController";
 import { protect } from "../middlewares/authMiddleware";
 
 const userRouter: Router = Router();
 
-userRouter.route("/profile").get(protect, getUserProfile).put(protect, updateUserProfile);
+userRouter
+	.route("/profile")
+	.get(protect, UserController.getUserProfile)
+	.put(protect, UserController.updateUserProfile);
 
 export default userRouter;
